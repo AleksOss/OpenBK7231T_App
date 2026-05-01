@@ -896,7 +896,7 @@ extern "C" void DRV_IR_RunFrame() {
 		}else {
 			// Error decoding
 			//ADDLOG_INFO(LOG_FEATURE_IR, "Error decoding IR data");
-			ADDLOG_INFO(LOG_FEATURE_IR, "Error decode %d", ourReceiver->getBufSize(void));
+			ADDLOG_INFO(LOG_FEATURE_IR, "Error decode %d", ourReceiver->getBufSize());
 			 // Enable receiving of the next value
 
 		}
