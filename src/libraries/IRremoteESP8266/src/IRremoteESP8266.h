@@ -1496,7 +1496,7 @@ const uint16_t kClimaButlerBits = 52;
 #endif  // ARDUINO
 #else  // DEBUG
 
-#if 0 // PLATFORM_BEKEN 
+#if PLATFORM_BEKEN 
 // ADD Logging macro
 // For debug messages only
 extern "C" {
