@@ -891,7 +891,14 @@ extern "C" void DRV_IR_RunFrame() {
 			* since receiving has stopped after the end of the current received data packet.
 			*/
 			ourReceiver->resume(); // Enable receiving of the next value
+		} else {
+			// Error decoding
+			//ADDLOG_INFO(LOG_FEATURE_IR, "Error decoding IR data");
+			ADDLOG_INFO(LOG_FEATURE_IR, "IR Error decode BufSize %d", ourReceiver->getBufSize(void));
+			 // Enable receiving of the next value
+
 		}
+		
 	}
 }
 
