@@ -846,6 +846,8 @@ extern "C" void DRV_IR_RunFrame() {
 					String _data=resultToHexidecimal(&results);
 					snprintf(out, sizeof(out), "{\"IrReceived\":{\"Protocol\":\"%s\",\"Bits\":%i,\"Data\":\"%s\"}}",
 						proto_name.c_str(), (int)results.bits, _data.c_str());
+					ADDLOG_INFO(LOG_FEATURE_IR, (char *)"IR JSON MQTT publish %s ", out);
+					
 					MQTT_PublishMain_StringString("RESULT", out, OBK_PUBLISH_FLAG_FORCE_REMOVE_GET);
 				}
 
