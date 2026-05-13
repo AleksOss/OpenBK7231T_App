@@ -804,7 +804,7 @@ int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5],ui
         uint16_t space = rawbuf[idx + 1];
         //if (space > MIDEA_THRESHOLD) {
         bits <<=1;
-        if (space_ticks > MIDEA_TICK_THRESHOLD) {        
+        if (space > MIDEA_TICK_THRESHOLD) {        
             //bits |= ((uint64_t)1 << (39 - bit_cnt)); // MSB first
             bits |= 1;
         }
