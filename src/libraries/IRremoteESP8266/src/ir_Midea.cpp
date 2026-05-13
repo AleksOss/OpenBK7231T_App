@@ -778,7 +778,7 @@ void LogArray(volatile uint16_t *in, int Len)
 
 #define MIDEA_THRESHOLD 650
 
-int my_decode_midea(const uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
+int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
     if (!rawbuf || rawlen < 42) return -1; // минимум: лидер + 40 бит + запас
 
     int idx = 0;
@@ -855,10 +855,12 @@ BYTE_TO_HEX(offset, out_offset);
     DPRINTLN(out_offset);
 
 
-if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset) == 0)
+if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset) == 0){
      DPRINTLN("Command Complite");
-else 
+}
+else {
     DPRINTLN("Command not Found");
+}
     
 
   for (uint8_t i = 0; i < min_nr_of_messages; i++) {
