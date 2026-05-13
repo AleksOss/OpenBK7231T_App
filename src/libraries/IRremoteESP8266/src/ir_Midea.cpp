@@ -776,15 +776,31 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
   if (nbits > sizeof(data) * 8)
     return false;  // We can't possibly capture a Midea packet that big.
  DPRINTLN("Attempting Midea decode 3");
+  
+    Serial.print("rawlen: ");
+    Serial.println(results->rawlen);
+
+    Serial.print("rawbuf: [");
+    for (int i = 0; i < results->rawlen; i++) {
+        Serial.print(results->rawbuf[i]);
+        if (i < results->rawlen - 1) Serial.print(", ");
+    }
+    Serial.println("]");
+
+    Serial.print("offset: ");
+    Serial.println(offset);
+
+
+
   for (uint8_t i = 0; i < min_nr_of_messages; i++) {
     // Match Header + Data + Footer
     uint16_t used;
        DPRINTLN("Attempting Midea decode 4");
-       DPRINTLN("rawlen: %d", results->rawlen);
-       for (int i_i = 0; i_i < results->rawlen; i_i++) {
-            DPRINT("%u", (unsigned int)results->rawbuf[i_i]);
-            if (i_i < results->rawlen - 1) printf(", ");
-        }
+//       DPRINTLN("rawlen: %d", results->rawlen);
+//       for (int i_i = 0; i_i < results->rawlen; i_i++) {
+//            DPRINT("%u", (unsigned int)results->rawbuf[i_i]);
+//            if (i_i < results->rawlen - 1) printf(", ");
+//        }
       DPRINT("\n");
     used = matchGeneric(results->rawbuf + offset, i % 2 ? &inverted : &data,
                         results->rawlen - offset, nbits,
