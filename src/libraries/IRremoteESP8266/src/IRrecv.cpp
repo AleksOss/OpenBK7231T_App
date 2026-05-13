@@ -1197,6 +1197,11 @@ bool IRrecv::decode(decode_results *results, irparams_t *save,
     if (decodeCarrierAC84(results, offset)) return true;
 #endif  // DECODE_CARRIER_AC84
   // Typically new protocols are added above this line.
+#if DECODE_MIDEA
+    DPRINTLN("Attempting Midea decode");
+    if (decodeMidea(results, offset)) return true;
+#endif
+		   
   }
 #if DECODE_HASH
   // decodeHash returns a hash on any input.
