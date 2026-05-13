@@ -776,7 +776,8 @@ void LogArray(volatile uint16_t *in, int Len)
     }
 }
 
-#define MIDEA_THRESHOLD 650
+//#define MIDEA_THRESHOLD 650
+#define MIDEA_TICK_THRESHOLD 2000
 
 int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5],uint64_t *data) {
     if (!rawbuf || rawlen < 42) return -1; // минимум: лидер + 40 бит + запас
@@ -786,9 +787,13 @@ int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5],ui
         {
     int idx = ofs;
     // Пропускаем лидер (обычно 2 элемента: mark ~2000, space ~800)
-    while (idx < rawlen && rawbuf[idx] < 1500) idx++; // ищем длинный mark
+    //while (idx < rawlen && rawbuf[idx] < 1500) idx++; // ищем длинный mark
+    while (idx < rawlen && rawbuf[idx] < 8000) idx++; // ищем длинный mark            
     ofs += idx+1;      
-    idx += 2; // пропускаем mark и space лидера
+//    idx += 2; // пропускаем mark и space лидера
+    idx++; // Пропускаем лидерный Mark        
+    // Пропускаем лидерный Space (> 4000 тиков / 2000µs)
+    if (idx < rawlen && rawbuf[idx] > 4000) idx++;            
 
     // Декодируем 40 бит
     uint64_t bits = 0;
@@ -797,8 +802,11 @@ int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5],ui
     while (idx + 1 < rawlen && bit_cnt < 40) {
         // rawbuf[idx] = Mark (обычно короткий), rawbuf[idx+1] = Space
         uint16_t space = rawbuf[idx + 1];
-        if (space > MIDEA_THRESHOLD) {
-            bits |= ((uint64_t)1 << (39 - bit_cnt)); // MSB first
+        //if (space > MIDEA_THRESHOLD) {
+        bits <<=1;
+        if (space_ticks > MIDEA_TICK_THRESHOLD) {        
+            //bits |= ((uint64_t)1 << (39 - bit_cnt)); // MSB first
+            bits |= 1;
         }
         idx += 2;
         bit_cnt++;
