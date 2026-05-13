@@ -763,22 +763,23 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     if (nbits != kMideaBits) return false;  // Not strictly a MIDEA message.
     min_nr_of_messages = 2;
   }
-
+   DPRINTLN("Attempting Midea decode 1");
   // The protocol sends the data normal + inverted, alternating on
   // each byte. Hence twice the number of expected data bits.
   if (results->rawlen <
       min_nr_of_messages * (2 * nbits + kHeader + kFooter) - 1 + offset)
     return false;  // Can't possibly be a valid MIDEA message.
-
+ DPRINTLN("Attempting Midea decode 2");
   uint64_t data = 0;
   uint64_t inverted = 0;
 
   if (nbits > sizeof(data) * 8)
     return false;  // We can't possibly capture a Midea packet that big.
-
+ DPRINTLN("Attempting Midea decode 3");
   for (uint8_t i = 0; i < min_nr_of_messages; i++) {
     // Match Header + Data + Footer
     uint16_t used;
+       DPRINTLN("Attempting Midea decode 4");
     used = matchGeneric(results->rawbuf + offset, i % 2 ? &inverted : &data,
                         results->rawlen - offset, nbits,
                         kMideaHdrMark, kMideaHdrSpace,
@@ -790,7 +791,7 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     if (!used) return false;
     offset += used;
   }
-
+ DPRINTLN("Attempting Midea decode 5");
   // Compliance
   if (strict) {
     // Protocol requires a second message with all the data bits inverted.
@@ -798,7 +799,9 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     // Just need to check it's value is an inverted copy of the first message.
     uint64_t mask = (1ULL << kMideaBits) - 1;
     if ((data & mask) != ((inverted ^ mask) & mask)) return false;
+       DPRINTLN("Attempting Midea decode 6");
     if (!IRMideaAC::validChecksum(data)) return false;
+       DPRINTLN("Attempting Midea decode 7");
   }
 
   // Success
