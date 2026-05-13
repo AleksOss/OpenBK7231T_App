@@ -756,6 +756,26 @@ String IRMideaAC::toString(void) {
 ///   Typically kHitachiAcBits, kHitachiAc1Bits, kHitachiAc2Bits,
 ///   kHitachiAc344Bits
 /// @param[in] strict Flag indicating if we should perform strict matching.
+#define BYTE_TO_HEX(b, out) do { \
+    static const char* _h = "0123456789ABCDEF"; \
+    (out)[0] = _h[(uint8_t)(b) >> 4]; \
+    (out)[1] = _h[(uint8_t)(b) & 0x0F]; \
+    (out)[2] = '\0'; \
+} while(0)
+
+void LogArray(uint8_t *in, int Len)
+{
+   uint8_t out[16*2+1];
+    for (int i =0; i< len; i+=16){
+        for(int j=0; j<16;j++){
+            BYTE_TO_HEX(in[i+j], out[j*2]);
+            if ((i+j)==len) break;
+        }
+         DPRINTLN(out);
+    }
+}
+
+
 bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
                          const uint16_t nbits, const bool strict) {
   uint8_t min_nr_of_messages = 1;
@@ -777,18 +797,21 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     return false;  // We can't possibly capture a Midea packet that big.
  DPRINTLN("Attempting Midea decode 3");
   
-    DPRINT("rawlen: ");
-    DPRINTLN(results->rawlen);
+//    DPRINT("rawlen: ");
+//    DPRINTLN(results->rawlen);
 
-    DPRINT("rawbuf: [");
-    for (int i = 0; i < results->rawlen; i++) {
-        DPRINT(results->rawbuf[i]);
-        if (i < results->rawlen - 1) DPRINT(", ");
-    }
-    DPRINTLN("]");
+//    DPRINT("rawbuf: [");
+//    for (int i = 0; i < results->rawlen; i++) {
+//        DPRINT(results->rawbuf[i]);
+//        if (i < results->rawlen - 1) DPRINT(", ");
+//    }
+//    DPRINTLN("]");
+    LogArray(results->rawbuf, results->rawlen);
 
     DPRINT("offset: ");
-    DPRINTLN(offset);
+uint8_t out_offset[2+1];
+BYTE_TO_HEX(offset, out_offset)
+    DPRINTLN(out_offset);
 
 
 
