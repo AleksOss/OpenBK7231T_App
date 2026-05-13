@@ -769,7 +769,7 @@ void LogArray(volatile uint16_t *in, int Len)
     for (int i =0; i< Len; i+=16){
         for(int j=0; j<8;j+=2){            
             BYTE_TO_HEX(((in[i+j]>>8)&0xFF), out+j*2);
-            BYTE_TO_HEX((in[i+j]&0xFF), out+j*2+1);            
+            BYTE_TO_HEX((in[i+j]&0xFF), out+j*2+2);            
             if ((i+j)==Len) break;
         }
          DPRINTLN(out);
