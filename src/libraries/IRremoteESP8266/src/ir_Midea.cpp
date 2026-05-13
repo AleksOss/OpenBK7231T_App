@@ -763,17 +763,17 @@ String IRMideaAC::toString(void) {
     (out)[2] = '\0'; \
 } while(0)
 
-void LogArray(uint8_t *in, int Len)
-{
-   uint8_t out[16*2+1];
-    for (int i =0; i< Len; i+=16){
-        for(int j=0; j<16;j++){
-            BYTE_TO_HEX(in[i+j], out[j*2]);
-            if ((i+j)==Len) break;
-        }
-         DPRINTLN(out);
-    }
-}
+//void LogArray(uint8_t *in, int Len)
+//{
+//   uint8_t out[16*2+1];
+//    for (int i =0; i< Len; i+=16){
+//        for(int j=0; j<16;j++){
+//            BYTE_TO_HEX(in[i+j], out[j*2]);
+//            if ((i+j)==Len) break;
+//        }
+//         DPRINTLN(out);
+//    }
+//}
 
 
 bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
@@ -797,7 +797,7 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     return false;  // We can't possibly capture a Midea packet that big.
  DPRINTLN("Attempting Midea decode 3");
 
-uint8_t out_byte[2+1];
+uint8_t out_offset[2+1];
     DPRINT("rawlen: ");
     BYTE_TO_HEX(results->rawlen, out_offset);
     DPRINTLN(out_offset);
