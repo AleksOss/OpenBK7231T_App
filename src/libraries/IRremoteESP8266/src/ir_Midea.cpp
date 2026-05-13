@@ -781,9 +781,13 @@ void LogArray(volatile uint16_t *in, int Len)
 int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
     if (!rawbuf || rawlen < 42) return -1; // минимум: лидер + 40 бит + запас
 
-    int idx = 0;
+    int ofs = 0;
+    while (ofs < rawlen) // по всему буферу
+        {
+    int idx = ofs;
     // Пропускаем лидер (обычно 2 элемента: mark ~2000, space ~800)
     while (idx < rawlen && rawbuf[idx] < 1500) idx++; // ищем длинный mark
+    ofs += idx+1;      
     idx += 2; // пропускаем mark и space лидера
 
     // Декодируем 40 бит
@@ -811,7 +815,9 @@ int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
 
     // Валидация чексуммы
     uint8_t calc_cs = (payload[0] + payload[1] + payload[2] + payload[3]) & 0xFF;
-    return (calc_cs == payload[4]) ? 0 : -3;
+    if (calc_cs == payload[4]) return 0 ;
+    }
+    return -3;
 }
 
 
