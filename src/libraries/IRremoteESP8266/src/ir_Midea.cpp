@@ -763,17 +763,18 @@ String IRMideaAC::toString(void) {
     (out)[2] = '\0'; \
 } while(0)
 
-//void LogArray(uint8_t *in, int Len)
-//{
-//   uint8_t out[16*2+1];
-//    for (int i =0; i< Len; i+=16){
-//        for(int j=0; j<16;j++){
-//            BYTE_TO_HEX(in[i+j], out[j*2]);
-//            if ((i+j)==Len) break;
-//        }
-//         DPRINTLN(out);
-//    }
-//}
+void LogArray(uint16_t *in, int Len)
+{
+   uint8_t out[16*2+1];
+    for (int i =0; i< Len; i+=16){
+        for(int j=0; j<8;j+=2){            
+            BYTE_TO_HEX((in[i+j]&0xFF), out[j*2]);
+            BYTE_TO_HEX(((in[i+j]>>8)&0xFF), out[j*2+2]);
+            if ((i+j)==Len) break;
+        }
+         DPRINTLN(out);
+    }
+}
 
 
 bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
@@ -808,7 +809,7 @@ uint8_t out_offset[2+1];
 //        if (i < results->rawlen - 1) DPRINT(", ");
 //    }
 //    DPRINTLN("]");
-    //LogArray(results->rawbuf, results->rawlen);
+    LogArray(results->rawbuf, results->rawlen);
 
     DPRINT("offset: ");
 
