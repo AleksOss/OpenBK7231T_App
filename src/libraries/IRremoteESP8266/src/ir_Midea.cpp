@@ -778,7 +778,7 @@ void LogArray(volatile uint16_t *in, int Len)
 
 #define MIDEA_THRESHOLD 650
 
-int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
+int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5],uint64_t *data) {
     if (!rawbuf || rawlen < 42) return -1; // минимум: лидер + 40 бит + запас
 
     int ofs = 0;
@@ -803,7 +803,7 @@ int my_decode_midea(volatile uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
         idx += 2;
         bit_cnt++;
     }
-
+    *data = bits;
     if (bit_cnt < 40) return -2;
 
     // Распаковка в 5 байт
@@ -861,7 +861,13 @@ BYTE_TO_HEX(offset, out_offset);
     DPRINTLN(out_offset);
 
 
-if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset) == 0){
+if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset, &data) == 0){
+  results->decode_type = MIDEA;
+  results->bits = nbits;
+  results->value = data;
+  results->address = 0;
+  results->command = 0;
+  return true;    
      DPRINTLN("Command Complite");
 }
 else {
@@ -869,27 +875,27 @@ else {
 }
     
 
-  for (uint8_t i = 0; i < min_nr_of_messages; i++) {
-    // Match Header + Data + Footer
-    uint16_t used;
-       DPRINTLN("Attempting Midea decode 4");
-//       DPRINTLN("rawlen: %d", results->rawlen);
-//       for (int i_i = 0; i_i < results->rawlen; i_i++) {
-//            DPRINT("%u", (unsigned int)results->rawbuf[i_i]);
-//            if (i_i < results->rawlen - 1) printf(", ");
-//        }
-      DPRINT("\n");
-    used = matchGeneric(results->rawbuf + offset, i % 2 ? &inverted : &data,
-                        results->rawlen - offset, nbits,
-                        kMideaHdrMark, kMideaHdrSpace,
-                        kMideaBitMark, kMideaOneSpace,
-                        kMideaBitMark, kMideaZeroSpace,
-                        kMideaBitMark, kMideaMinGap,
-                        i % 2,  // No "atleast" on 1st part, but yes on the 2nd.
-                        kMideaTolerance);
-    if (!used) return false;
-    offset += used;
-  }
+//   for (uint8_t i = 0; i < min_nr_of_messages; i++) {
+//     // Match Header + Data + Footer
+//     uint16_t used;
+//        DPRINTLN("Attempting Midea decode 4");
+// //       DPRINTLN("rawlen: %d", results->rawlen);
+// //       for (int i_i = 0; i_i < results->rawlen; i_i++) {
+// //            DPRINT("%u", (unsigned int)results->rawbuf[i_i]);
+// //            if (i_i < results->rawlen - 1) printf(", ");
+// //        }
+//       DPRINT("\n");
+//     used = matchGeneric(results->rawbuf + offset, i % 2 ? &inverted : &data,
+//                         results->rawlen - offset, nbits,
+//                         kMideaHdrMark, kMideaHdrSpace,
+//                         kMideaBitMark, kMideaOneSpace,
+//                         kMideaBitMark, kMideaZeroSpace,
+//                         kMideaBitMark, kMideaMinGap,
+//                         i % 2,  // No "atleast" on 1st part, but yes on the 2nd.
+//                         kMideaTolerance);
+//     if (!used) return false;
+//     offset += used;
+//   }
  DPRINTLN("Attempting Midea decode 5");
   // Compliance
   if (strict) {
