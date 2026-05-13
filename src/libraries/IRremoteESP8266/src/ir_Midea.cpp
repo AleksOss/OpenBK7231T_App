@@ -777,18 +777,18 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     return false;  // We can't possibly capture a Midea packet that big.
  DPRINTLN("Attempting Midea decode 3");
   
-    Serial.print("rawlen: ");
-    Serial.println(results->rawlen);
+    DPRINT("rawlen: ");
+    DPRINTLN(results->rawlen);
 
-    Serial.print("rawbuf: [");
+    DPRINT("rawbuf: [");
     for (int i = 0; i < results->rawlen; i++) {
-        Serial.print(results->rawbuf[i]);
-        if (i < results->rawlen - 1) Serial.print(", ");
+        DPRINT(results->rawbuf[i]);
+        if (i < results->rawlen - 1) DPRINT(", ");
     }
-    Serial.println("]");
+    DPRINTLN("]");
 
-    Serial.print("offset: ");
-    Serial.println(offset);
+    DPRINT("offset: ");
+    DPRINTLN(offset);
 
 
 
