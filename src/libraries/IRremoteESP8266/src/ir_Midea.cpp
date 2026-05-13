@@ -780,6 +780,12 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     // Match Header + Data + Footer
     uint16_t used;
        DPRINTLN("Attempting Midea decode 4");
+       DPRINTLN("rawlen: %d", results->rawlen);
+       for (int i_i = 0; i_i < results->rawlen; i_i++) {
+            DPRINT("%u", (unsigned int)results->rawbuf[i_i]);
+            if (i_i < results->rawlen - 1) printf(", ");
+        }
+      DPRINT("\n");
     used = matchGeneric(results->rawbuf + offset, i % 2 ? &inverted : &data,
                         results->rawlen - offset, nbits,
                         kMideaHdrMark, kMideaHdrSpace,
