@@ -776,6 +776,44 @@ void LogArray(volatile uint16_t *in, int Len)
     }
 }
 
+#define MIDEA_THRESHOLD 650
+
+int my_decode_midea(const uint16_t* rawbuf, int rawlen, uint8_t payload[5]) {
+    if (!rawbuf || rawlen < 42) return -1; // минимум: лидер + 40 бит + запас
+
+    int idx = 0;
+    // Пропускаем лидер (обычно 2 элемента: mark ~2000, space ~800)
+    while (idx < rawlen && rawbuf[idx] < 1500) idx++; // ищем длинный mark
+    idx += 2; // пропускаем mark и space лидера
+
+    // Декодируем 40 бит
+    uint64_t bits = 0;
+    int bit_cnt = 0;
+
+    while (idx + 1 < rawlen && bit_cnt < 40) {
+        // rawbuf[idx] = Mark (обычно короткий), rawbuf[idx+1] = Space
+        uint16_t space = rawbuf[idx + 1];
+        if (space > MIDEA_THRESHOLD) {
+            bits |= ((uint64_t)1 << (39 - bit_cnt)); // MSB first
+        }
+        idx += 2;
+        bit_cnt++;
+    }
+
+    if (bit_cnt < 40) return -2;
+
+    // Распаковка в 5 байт
+    payload[0] = (bits >> 32) & 0xFF;
+    payload[1] = (bits >> 24) & 0xFF;
+    payload[2] = (bits >> 16) & 0xFF;
+    payload[3] = (bits >>  8) & 0xFF;
+    payload[4] =  bits        & 0xFF;
+
+    // Валидация чексуммы
+    uint8_t calc_cs = (payload[0] + payload[1] + payload[2] + payload[3]) & 0xFF;
+    return (calc_cs == payload[4]) ? 0 : -3;
+}
+
 
 bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
                          const uint16_t nbits, const bool strict) {
@@ -817,6 +855,11 @@ BYTE_TO_HEX(offset, out_offset);
     DPRINTLN(out_offset);
 
 
+if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset) == 0)
+     DPRINTLN("Command Complite");
+else 
+    DPRINTLN("Command not Found");
+    
 
   for (uint8_t i = 0; i < min_nr_of_messages; i++) {
     // Match Header + Data + Footer
