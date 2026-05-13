@@ -842,7 +842,8 @@ bool IRrecv::decodeMidea(decode_results *results, uint16_t offset,
     return false;  // We can't possibly capture a Midea packet that big.
  DPRINTLN("Attempting Midea decode 3");
 
-uint8_t out_offset[2+1];
+uint8_t out_offset[30+1];
+uint8_t payload[5];
     DPRINT("rawlen: ");
     BYTE_TO_HEX(results->rawlen, out_offset);
     DPRINTLN(out_offset);
@@ -861,14 +862,21 @@ BYTE_TO_HEX(offset, out_offset);
     DPRINTLN(out_offset);
 
 
-if ( my_decode_midea(results->rawbuf, results->rawlen, out_offset, &data) == 0){
+if ( my_decode_midea(results->rawbuf, results->rawlen, payload, &data) == 0){
   results->decode_type = MIDEA;
   results->bits = nbits;
   results->value = data;
   results->address = 0;
   results->command = 0;
+  DPRINTLN("Command Complite");
+  BYTE_TO_HEX(payload[0], out_offset);      
+  BYTE_TO_HEX(payload[1], out_offset+2);  
+  BYTE_TO_HEX(payload[2], out_offset+4);
+  BYTE_TO_HEX(payload[3], out_offset+6);
+  BYTE_TO_HEX(payload[4], out_offset+8);  
+    DPRINTLN(out_offset);
   return true;    
-     DPRINTLN("Command Complite");
+     
 }
 else {
     DPRINTLN("Command not Found");
