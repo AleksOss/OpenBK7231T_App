@@ -765,7 +765,7 @@ String IRMideaAC::toString(void) {
 
 void LogArray(volatile uint16_t *in, int Len)
 {
-   uint8_t out[16*2+1];
+   uint8_t out[16*4+1];
     for (int i =0; i< Len; i+=16){
         for(int j=0; j<16;j++){            
             BYTE_TO_HEX(((in[i+j]>>8)&0xFF), out+j*4);
