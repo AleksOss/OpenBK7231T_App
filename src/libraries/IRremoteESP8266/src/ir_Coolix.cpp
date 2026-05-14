@@ -33,7 +33,7 @@ const uint16_t kCoolixHdrSpaceTicks = 16;
 const uint16_t kCoolixHdrSpace = kCoolixHdrSpaceTicks * kCoolixTick;  // 4416us
 const uint16_t kCoolixMinGapTicks = kCoolixHdrMarkTicks + kCoolixZeroSpaceTicks;
 const uint16_t kCoolixMinGap = kCoolixMinGapTicks * kCoolixTick;  // 5244us
-const uint8_t  kCoolixExtraTolerance = 5;  // Percent
+const uint8_t  kCoolixExtraTolerance = 25;  // Percent
 
 using irutils::addBoolToString;
 using irutils::addIntToString;
