@@ -484,7 +484,7 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 //						pAc->on();  // или ac.setPower(true);
 //						pAc->send(); // Отправит 0xB21FC8 + повтор
 						//pIRsend->sendCOOLIX((uint64_t)0xB25FCC,kCoolixBits,(int)repeats);
-						pIRsend->sendCOOLIX48((uint64_t)0xB24D5FA0CC33,48,(int)repeats);//4D A033
+						pIRsend->sendCoolix48((uint64_t)0xB24D5FA0CC33,48,(int)repeats);//4D A033
 						ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerUp");
 					} else
 						if (command == 0){
@@ -492,7 +492,7 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 							//pAc->off();  
 							//pAc->send(); // Отправит повтор
 							//pIRsend->sendCOOLIX((uint64_t)0xB27BE0,kCoolixBits,(int)repeats);
-							pIRsend->sendCOOLIX48((uint64_t)0xB24D7B84E01F,48,(int)repeats);//4D 841F
+							pIRsend->sendCoolix48((uint64_t)0xB24D7B84E01F,48,(int)repeats);//4D 841F
 							ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerDown");
 						} else
 							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command 0x%X not supported", (int)command);
