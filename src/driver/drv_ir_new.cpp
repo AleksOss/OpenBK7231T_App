@@ -171,7 +171,7 @@ SpoofIrReceiver IrReceiver;
 #endif
 #include "../libraries/IRremoteESP8266/src/IRproto.h"
 #include "../libraries/IRremoteESP8266/src/digitalWriteFast.h"
-#include "../libraries/IRremoteESP8266/src/ir_Coolix.h"
+//#include "../libraries/IRremoteESP8266/src/ir_Coolix.h"
 // override aspects of sending for our own interrupt driven sends
 // basically, IRsend calls mark(us) and space(us) to send.
 // we simply note the numbers into a rolling buffer, assume the first is a mark()
@@ -282,7 +282,7 @@ public:
 myIRsend *pIRsend = NULL;
 IRrecv *ourReceiver = NULL;
 
-IRCoolixAC *pAc;
+//IRCoolixAC *pAc;
 //ac.begin();
 
 
@@ -749,13 +749,13 @@ extern "C" void DRV_IR_Init() {
 			CMD_RegisterCommand("IRParam",IR_Param, NULL);
 		}
 	}
-	if (pAc) {
-		IRCoolixAC *pAcTemp = pAc;
-		pAc = NULL;
-		delete pAcTemp;
-	}
-        pAc = new IRCoolixAC(txpin);
-	pAc->begin();
+	// if (pAc) {
+	// 	IRCoolixAC *pAcTemp = pAc;
+	// 	pAc = NULL;
+	// 	delete pAcTemp;
+	// }
+ //        pAc = new IRCoolixAC(txpin);
+	// pAc->begin();
 		
 	if ((pin >= 0) || (txpin >= 0)) {
 		// both tx and rx need the interrupt
