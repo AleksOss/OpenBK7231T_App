@@ -282,8 +282,8 @@ public:
 myIRsend *pIRsend = NULL;
 IRrecv *ourReceiver = NULL;
 
-IRCoolixAC ac(IR_PIN);
-ac.begin();
+IRCoolixAC *pAc;
+//ac.begin();
 
 
 // this is our ISR.
@@ -478,14 +478,14 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 				{
 					if (command==1){
 						// Стандартное включение (25°C, Auto, Auto Fan)
-						ac.on();  // или ac.setPower(true);
-						ac.send(); // Отправит 0xB21FC8 + повтор
+						pAc->on();  // или ac.setPower(true);
+						pAc->send(); // Отправит 0xB21FC8 + повтор
 						ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerUp");
 					} else
 						if (command == 0){
 							// Стандартное включение (25°C, Auto, Auto Fan)
-							ac.off();  // или ac.setPower(true);
-							ac.send(); // Отправит 0xB21FC8 + повтор
+							pAc->off();  // или ac.setPower(true);
+							pAc->send(); // Отправит 0xB21FC8 + повтор
 							ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerDown");
 						} else
 							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command %s not supported", args);
@@ -747,6 +747,14 @@ extern "C" void DRV_IR_Init() {
 			CMD_RegisterCommand("IRParam",IR_Param, NULL);
 		}
 	}
+	if (pAc) {
+		IRCoolixAC *pAcTemp = pAc;
+		pAc = NULL;
+		delete pAcTemp;
+	}
+        pAc = new IRCoolixAC(txpin);
+	pAc->begin();
+		
 	if ((pin >= 0) || (txpin >= 0)) {
 		// both tx and rx need the interrupt
 		_timerConfigForReceive();
