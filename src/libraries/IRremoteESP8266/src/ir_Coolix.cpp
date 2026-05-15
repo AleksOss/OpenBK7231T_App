@@ -733,7 +733,7 @@ void IRsend::sendCoolix48(const uint64_t data, const uint16_t nbits,
               kCoolixBitMark, kCoolixOneSpace,
               kCoolixBitMark, kCoolixZeroSpace,
               kCoolixBitMark, kCoolixMinGap,
-              data, nbits, 38000, true, repeat, 33);
+              data, nbits, 38000, true, repeat, 50);
 }
 #endif  // SEND_COOLIX48
 
