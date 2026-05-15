@@ -490,7 +490,7 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 							pIRsend->sendCOOLIX((uint64_t)0xB27BE0,kCoolixBits,repeat);
 							ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerDown");
 						} else
-							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command 0x%X not supported", command);
+							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command 0x%X not supported", (int)command);
 					break;
 				}
 			default:
