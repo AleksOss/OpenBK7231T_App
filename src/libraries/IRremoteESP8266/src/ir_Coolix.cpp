@@ -20,34 +20,33 @@
 // Pulse parms are *50-100 for the Mark and *50+100 for the space
 // First MARK is the one after the long gap
 // pulse parameters in usec
-const uint16_t kCoolixTick = 292;//288(20);//308(23);//332-(24);//276;  // Approximately 10.5 cycles at 38kHz
-const uint16_t kCoolixBitMarkTicks = 2;
-const uint16_t kCoolixBitMark = kCoolixBitMarkTicks * kCoolixTick;  // 552us
-const uint16_t kCoolixOneSpaceTicks = 6;
-const uint16_t kCoolixOneSpace = kCoolixOneSpaceTicks * kCoolixTick;  // 1656us
-const uint16_t kCoolixZeroSpaceTicks = 2;
-const uint16_t kCoolixZeroSpace = kCoolixZeroSpaceTicks * kCoolixTick;  // 552us
-const uint16_t kCoolixHdrMarkTicks = 17;
-const uint16_t kCoolixHdrMark = kCoolixHdrMarkTicks * kCoolixTick;  // 4692us
-const uint16_t kCoolixHdrSpaceTicks = 16;
-const uint16_t kCoolixHdrSpace = kCoolixHdrSpaceTicks * kCoolixTick;  // 4416us
-const uint16_t kCoolixMinGapTicks = kCoolixHdrMarkTicks + kCoolixZeroSpaceTicks;
-const uint16_t kCoolixMinGap = kCoolixMinGapTicks * kCoolixTick;  // 5244us
-
-// const uint16_t kCoolixTick = 50;  // Approximately 10.5 cycles at 38kHz
-// const uint16_t kCoolixBitMarkTicks = 5;
+// const uint16_t kCoolixTick = 292;//288(20);//308(23);//332-(24);//276;  // Approximately 10.5 cycles at 38kHz
+// const uint16_t kCoolixBitMarkTicks = 2;
 // const uint16_t kCoolixBitMark = kCoolixBitMarkTicks * kCoolixTick;  // 552us
-// const uint16_t kCoolixOneSpaceTicks = 20;
+// const uint16_t kCoolixOneSpaceTicks = 6;
 // const uint16_t kCoolixOneSpace = kCoolixOneSpaceTicks * kCoolixTick;  // 1656us
-// const uint16_t kCoolixZeroSpaceTicks = 6;
+// const uint16_t kCoolixZeroSpaceTicks = 2;
 // const uint16_t kCoolixZeroSpace = kCoolixZeroSpaceTicks * kCoolixTick;  // 552us
-// const uint16_t kCoolixHdrMarkTicks = 60;
+// const uint16_t kCoolixHdrMarkTicks = 17;
 // const uint16_t kCoolixHdrMark = kCoolixHdrMarkTicks * kCoolixTick;  // 4692us
-// const uint16_t kCoolixHdrSpaceTicks = 56;
+// const uint16_t kCoolixHdrSpaceTicks = 16;
 // const uint16_t kCoolixHdrSpace = kCoolixHdrSpaceTicks * kCoolixTick;  // 4416us
 // const uint16_t kCoolixMinGapTicks = kCoolixHdrMarkTicks + kCoolixZeroSpaceTicks;
 // const uint16_t kCoolixMinGap = kCoolixMinGapTicks * kCoolixTick;  // 5244us
 
+const uint16_t kCoolixTick = 50*2;  // 
+const uint16_t kCoolixBitMarkTicks = 5;
+const uint16_t kCoolixBitMark = kCoolixBitMarkTicks * kCoolixTick;  // 552us
+const uint16_t kCoolixOneSpaceTicks = 20;
+const uint16_t kCoolixOneSpace = kCoolixOneSpaceTicks * kCoolixTick;  // 1656us
+const uint16_t kCoolixZeroSpaceTicks = 6;
+const uint16_t kCoolixZeroSpace = kCoolixZeroSpaceTicks * kCoolixTick;  // 552us
+const uint16_t kCoolixHdrMarkTicks = 60;
+const uint16_t kCoolixHdrMark = kCoolixHdrMarkTicks * kCoolixTick;  // 4692us
+const uint16_t kCoolixHdrSpaceTicks = 56;
+const uint16_t kCoolixHdrSpace = kCoolixHdrSpaceTicks * kCoolixTick;  // 4416us
+const uint16_t kCoolixMinGapTicks = kCoolixHdrMarkTicks + kCoolixZeroSpaceTicks;
+const uint16_t kCoolixMinGap = kCoolixMinGapTicks * kCoolixTick;  // 5244us
 const uint8_t  kCoolixExtraTolerance = 20;  // Percent
 
 using irutils::addBoolToString;
