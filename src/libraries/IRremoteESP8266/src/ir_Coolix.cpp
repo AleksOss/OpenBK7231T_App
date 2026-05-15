@@ -20,7 +20,7 @@
 // Pulse parms are *50-100 for the Mark and *50+100 for the space
 // First MARK is the one after the long gap
 // pulse parameters in usec
-const uint16_t kCoolixTick = 288;//308(23);//332-(24);//276;  // Approximately 10.5 cycles at 38kHz
+const uint16_t kCoolixTick = 292;//288(20);//308(23);//332-(24);//276;  // Approximately 10.5 cycles at 38kHz
 const uint16_t kCoolixBitMarkTicks = 2;
 const uint16_t kCoolixBitMark = kCoolixBitMarkTicks * kCoolixTick;  // 552us
 const uint16_t kCoolixOneSpaceTicks = 6;
