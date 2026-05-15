@@ -171,7 +171,7 @@ SpoofIrReceiver IrReceiver;
 #endif
 #include "../libraries/IRremoteESP8266/src/IRproto.h"
 #include "../libraries/IRremoteESP8266/src/digitalWriteFast.h"
-
+#include "../libraries/IRremoteESP8266/src/ir_Coolix.h"
 // override aspects of sending for our own interrupt driven sends
 // basically, IRsend calls mark(us) and space(us) to send.
 // we simply note the numbers into a rolling buffer, assume the first is a mark()
@@ -895,9 +895,10 @@ extern "C" void DRV_IR_RunFrame() {
 					case decode_type_t::SONY:
 						tgType = CMD_EVENT_IR_SONY;
 						break;
-					case decode_type_t::COOLIX:
+/*					case decode_type_t::COOLIX:
 						tgType = CMD_EVENT_IR_COOLIX;
 						break;
+*/			
 					default:
 						break;
 					}
