@@ -480,14 +480,14 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 						// Стандартное включение (25°C, Auto, Auto Fan)
 //						pAc->on();  // или ac.setPower(true);
 //						pAc->send(); // Отправит 0xB21FC8 + повтор
-						pIRsend->sendCOOLIX((uint64_t)0xB25FCC,kCoolixBits,repeats);
+						pIRsend->sendCOOLIX((uint64_t)0xB25FCC,kCoolixBits,(int)repeats);
 						ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerUp");
 					} else
 						if (command == 0){
 							// Стандартное 
 							//pAc->off();  
 							//pAc->send(); // Отправит повтор
-							pIRsend->sendCOOLIX((uint64_t)0xB27BE0,kCoolixBits,repeat);
+							pIRsend->sendCOOLIX((uint64_t)0xB27BE0,kCoolixBits,(int)repeats);
 							ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerDown");
 						} else
 							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command 0x%X not supported", (int)command);
