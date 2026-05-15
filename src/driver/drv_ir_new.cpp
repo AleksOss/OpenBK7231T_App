@@ -282,6 +282,10 @@ public:
 myIRsend *pIRsend = NULL;
 IRrecv *ourReceiver = NULL;
 
+IRCoolixAC ac(IR_PIN);
+ac.begin();
+
+
 // this is our ISR.
 // it is called every 50us, so we need to work on making it as efficient as possible.
 extern "C" void DRV_IR_ISR(void* arg)
@@ -470,6 +474,23 @@ extern "C" commandResult_t IR_Send_Cmd(const void *context, const char *cmd, con
 			case decode_type_t::LG:
 				pIRsend->sendLG((uint64_t)pIRsend->encodeLG(addr,command));
 				break;
+			case decode_type_t::COOLIX:
+				{
+					if (command==1){
+						// Стандартное включение (25°C, Auto, Auto Fan)
+						ac.on();  // или ac.setPower(true);
+						ac.send(); // Отправит 0xB21FC8 + повтор
+						ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerUp");
+					} else
+						if (command == 0){
+							// Стандартное включение (25°C, Auto, Auto Fan)
+							ac.off();  // или ac.setPower(true);
+							ac.send(); // Отправит 0xB21FC8 + повтор
+							ADDLOG_INFO(LOG_FEATURE_IR, (char *)"AC send PowerDown");
+						} else
+							ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"COOLIX command %s not supported", args);
+					break;
+				}
 			default:
 				ADDLOG_ERROR(LOG_FEATURE_IR, (char *)"IR send %s protocol not supported", args);
 				return CMD_RES_ERROR;
@@ -873,6 +894,9 @@ extern "C" void DRV_IR_RunFrame() {
 						break;
 					case decode_type_t::SONY:
 						tgType = CMD_EVENT_IR_SONY;
+						break;
+					case decode_type_t::COOLIX:
+						tgType = CMD_EVENT_IR_COOLIX;
 						break;
 					default:
 						break;
