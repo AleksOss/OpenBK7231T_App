@@ -37,7 +37,7 @@
 const uint16_t kCoolixTick = 50*2;  // 
 const uint16_t kCoolixBitMarkTicks = 5;
 const uint16_t kCoolixBitMark = kCoolixBitMarkTicks * kCoolixTick;  // 552us
-const uint16_t kCoolixOneSpaceTicks = 20;
+const uint16_t kCoolixOneSpaceTicks = 21;
 const uint16_t kCoolixOneSpace = kCoolixOneSpaceTicks * kCoolixTick;  // 1656us
 const uint16_t kCoolixZeroSpaceTicks = 6;
 const uint16_t kCoolixZeroSpace = kCoolixZeroSpaceTicks * kCoolixTick;  // 552us
